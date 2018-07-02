@@ -6,9 +6,10 @@ PROG := $(PROJ).exe
 
 # map file
 MAP := $(PROJ).map
-HEAD=$(PROJ).header
-DASM=$(PROJ).dasm
-NMF=$(PROJ).nm
+HEAD := $(PROJ).header
+DASM := $(PROJ).dasm
+LDDF := $(PROJ).ldd
+NMF := $(PROJ).nm
 
 # sourcecode file
 SRCS := main.c
@@ -37,6 +38,7 @@ NM := nm
 
 # other tools
 RM := C:/MinGW/msys/1.0/bin/rm
+GREP := C:/MinGW/msys/1.0/bin/grep
 
 # compiler option
 FLAGS := -g
@@ -54,7 +56,7 @@ LIBRARYS := -LC:/MinGW/lib
 
 # rules
 all: $(PROG)
-dump: $(DASM) $(HEAD) $(NMF) $(DASMS) $(NMS)
+dump: $(DASM) $(HEAD) $(NMF) $(LDDF) $(DASMS) $(NMS)
 assemble: $(ASMS)
 preprocess: $(PRES)
 
@@ -66,6 +68,9 @@ $(DASM): $(PROG)
 
 $(HEAD): $(PROG)
 	$(DUMP) -x $^ > $@
+
+$(LDDF): $(PROG)
+	$(DUMP) -p $^ | $(GREP) 'DLL Name:' > $@
 
 $(NMF): $(PROG)
 	$(NM) -o -g $^ > $@
@@ -92,4 +97,4 @@ $(PRES): $(SRCS) $(DEPM)
 
 # clean
 clean:
-	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(DASM) $(NMF) $(DASMS) $(NMS)
+	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(LDDF) $(DASM) $(NMF) $(DASMS) $(NMS)
