@@ -1,7 +1,7 @@
 # C言語プログラム開発環境
 ## 開発環境
 ### Compiler
-MinGW or MSYS2 or Cygwin を insall し make, gcc, gdb への path を通す。
+MinGW or MSYS2 or Cygwin を install し make, gcc, gdb への path を通す。
 #### Install - MinGW(gcc)
 https://sourceforge.net/projects/mingw/files/  
 1. 「Download Latest Version」click
