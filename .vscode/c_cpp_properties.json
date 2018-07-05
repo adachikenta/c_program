@@ -10,7 +10,7 @@
             },
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/MinGW/include/**"
+                "C:/msys64/**"
             ],
             "defines": [
                 "_DEBUG",

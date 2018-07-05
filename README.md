@@ -1,7 +1,8 @@
 # C言語プログラム開発環境
 ## 開発環境
-### Compiler：MinGW(gcc)
-#### Install
+### Compiler
+MinGW or MSYS2 or Cygwin を insall し make, gcc, gdb への path を通す。
+#### Install - MinGW(gcc)
 https://sourceforge.net/projects/mingw/files/  
 1. 「Download Latest Version」click
 1. mingw-get-setup.exe 実行
@@ -16,35 +17,41 @@ https://sourceforge.net/projects/mingw/files/
 1. 「C:\MinGW\bin」へgccを配備したことを確認
 
 #### Setting
-1. 環境変数「PATH」に「C:\MinGW\bin」を追加
+1. 環境変数「PATH」に make, gcc, gdb への path を追加
 
 ### Editor・Builder・Debugger：Visual Studio Code
 #### Install
 https://code.visualstudio.com/<br>
 
 #### Setting
+「」内は VS Code 拡張機能名
 1. Build・Debug<br>
-参考サイト：https://gabekore.org/vscode-c-windows<br>
-※Visual Studio 2015は使わないこと。<br>
     1. 「C/C++」<br>
-追加エラーとなる場合、<br>
-https://github.com/Microsoft/vscode-cpptools/releases<br>
-から cpptools-win32.vsix を落とし、拡張機能の「…」から<br>
-「VSIXからのインストール」でファイル選択して追加すること。   
+    追加エラーとなる場合、<br>
+    [cpptools-win32.vsix](https://github.com/Microsoft/vscode-cpptools/releases) を拡張機能の「…」→「VSIXからのインストール」から<br>
+    ファイル選択して追加。   
     1. 「Runner」<br>
-crun_gcc.batは00_environment内に作成済みです。  <br>
+    crun_gcc.bat をローカル配備し、<br>
+    「ファイル」→「基本設定」→「設定」から下記を追加。<br>
+        ```command
+        "runner.languageMap": {
+            "c":"C:/VisualCodeRunner/crun_gcc.bat"
+        },
+        ```
 
 1. Document
     1. 「Doxygen Documentation Generator」：コメント入力補完に必要。
-    2. 「vscode-pdf」：コーディング規約の参照に必要。
-    3. 「Auto-Open Markdown Preview」：mdファイルの参照に必要。
-    4. 「PlantUML」：PlantUMLファイルの参照に必要。
+    1. 「vscode-pdf」：コーディング規約の参照に必要。
+    1. 「Auto-Open Markdown Preview」：mdファイルの参照に必要。
+    1. 「PlantUML」：PlantUMLファイルの参照に必要。<br>
+    ＋[Graphviz](https://www.graphviz.org/download/) - Stable 2.38 Windows install packages - graphviz-2.38.msi<br>
+    ＋Java
 
 1. Other<br>
 AutoEncode：https://qiita.com/ustakr/items/acad8dc12c166c2ad5e9
     1. 「GitLens」：修正履歴見やすくなる。（任意）
-    2. 「vscode-icons」：アイコン見やすくなる。（任意）
-    3. 「Markdown All in One」：mdファイル作成支援。（任意）
+    1. 「vscode-icons」：アイコン見やすくなる。（任意）
+    1. 「Markdown All in One」：mdファイル作成支援。（任意）
 
 ## 開発方法
 ### Build方法
@@ -56,22 +63,22 @@ AutoEncode：https://qiita.com/ustakr/items/acad8dc12c166c2ad5e9
 
 ### 修正方法
 1. main.cを修正。
-2. コメント補完は関数の前に「/**」と入力して[Enter]
+1. コメント補完は関数の前に「/**」と入力して[Enter]
 
 ### 実行方法
 1. コマンドプロンプト起動<br>
 [Win]+[R] → "cmd" → [Enter]
 1. ディレクトリ移動
 ```command
-C:\Users\UserName>cd "C:\C_LANG\00_environment"
+C:\Users\UserName>cd "C:\workspaceFolder"
 ```
 1. プログラム実行
 ```command
-C:\C_LANG\00_environment>main.exe
+C:\workspaceFolder>main.exe
 ```
 4. プログラム実行結果確認
 ```command
-C:\C_LANG\00_environment>echo %ERRORLEVEL%
+C:\workspaceFolder>echo %ERRORLEVEL%
 0
 ```
 
@@ -80,4 +87,3 @@ C:\C_LANG\00_environment>echo %ERRORLEVEL%
 → ブレイクポイントで停止することを確認。
 1. [F10]<br>
 → ステップ実行できることを確認。
-

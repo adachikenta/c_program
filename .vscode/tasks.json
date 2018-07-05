@@ -12,7 +12,7 @@
     "tasks": [
         {
             "label": "build",
-            "command": "C:/MinGW/msys/1.0/bin/make",
+            "command": "make",
             "args": [
                 "all"
             ],
@@ -26,7 +26,7 @@
         },
         {
             "label": "clean",
-            "command": "C:/MinGW/msys/1.0/bin/make",
+            "command": "make",
             "args": [
                 "clean"
             ],
@@ -40,7 +40,7 @@
         },
         {
             "label": "preprocess",
-            "command": "C:/MinGW/msys/1.0/bin/make",
+            "command": "make",
             "args": [
                 "preprocess"
             ],
@@ -54,7 +54,7 @@
         },
         {
             "label": "assemble",
-            "command": "C:/MinGW/msys/1.0/bin/make",
+            "command": "make",
             "args": [
                 "assemble"
             ],
@@ -68,9 +68,23 @@
         },
         {
             "label": "dump",
-            "command": "C:/MinGW/msys/1.0/bin/make",
+            "command": "make",
             "args": [
                 "dump"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "version",
+            "command": "make",
+            "args": [
+                "version"
             ],
             "problemMatcher": [
                 "$gcc"

@@ -37,8 +37,8 @@ DUMP := objdump
 NM := nm
 
 # other tools
-RM := C:/MinGW/msys/1.0/bin/rm
-GREP := C:/MinGW/msys/1.0/bin/grep
+RM := rm
+GREP := grep
 
 # compiler option
 FLAGS := -g
@@ -98,3 +98,15 @@ $(PRES): $(SRCS) $(DEPM)
 # clean
 clean:
 	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(LDDF) $(DASM) $(NMF) $(DASMS) $(NMS)
+
+version:
+	@which make
+	@make -v | head -n 1
+	@which gcc
+	@gcc --version | head -n 1
+	@which gdb
+	@gdb -v | head -n 1
+	@which objdump
+	@objdump -v | head -n 1
+	@which nm
+	@nm -V | head -n 1
