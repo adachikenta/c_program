@@ -78,14 +78,14 @@ https://code.visualstudio.com/<br>
 ### 実行方法
 1. [Ctrl]+[Shift]+[C] → コマンドプロンプト起動<br>
 1. プログラム実行
-```command
-C:\workspaceFolder>program_name.exe
-```
-4. プログラム実行結果確認
-```command
-C:\workspaceFolder>echo %ERRORLEVEL%
-0
-```
+    ```command
+    C:\workspaceFolder>program_name.exe
+    ```
+1. プログラム実行結果確認
+    ```command
+    C:\workspaceFolder>echo %ERRORLEVEL%
+    0
+    ```
 
 ### 修正方法
 1. main.cを修正。
