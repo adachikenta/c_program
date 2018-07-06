@@ -17,9 +17,13 @@ https://sourceforge.net/projects/mingw/files/
 1. 「C:\MinGW\bin」へ gcc を配備したことを確認
 1. 「C:\MinGW\msys\1.0\bin」へ make を配備したことを確認
 
-#### Setting
+※msys2の場合はpacmanでmake, gcc, gdb などをインストールする。
+
+#### Setting - MinGW(gcc)
 1. 環境変数「PATH」に「C:\MinGW\bin」を追加
 1. 環境変数「PATH」に「C:\MinGW\msys\1.0\bin」を追加
+
+※msys2の場合は環境変数「PATH」に「C:\msys64\usr\bin」を追加
 
 ### Editor・Builder・Debugger：Visual Studio Code
 #### Install
