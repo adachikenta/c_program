@@ -1,34 +1,36 @@
 # project name
-PROJ := program_name
+PROJ := program
 
 # program file
 PROG := $(PROJ).exe
 
 # map file
 MAP := $(PROJ).map
-HEAD := $(PROJ).header
-DASM := $(PROJ).dasm
-LDDF := $(PROJ).ldd
-NMF := $(PROJ).nm
+DUMPDIR := reverse
+HEAD := $(DUMPDIR)/$(PROJ).header
+DASM := $(DUMPDIR)/$(PROJ).dasm
+LDDF := $(DUMPDIR)/$(PROJ).ldd
+NMF := $(DUMPDIR)/$(PROJ).nm
 
 # sourcecode file
 SRCS := main.c
 
 # object file
-OBJS := $(SRCS:%.c=%.o)
+OBJDIR := obj
+OBJS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 
 # preprocessed file
-PRES := $(SRCS:%.c=%.prepro)
+PRES := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.prepro))
 
 # assembler file
-ASMS := $(SRCS:%.c=%.s)
-DASMS := $(SRCS:%.c=%.dasm)
+ASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.s))
+DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm))
 
 # nm file
-NMS := $(SRCS:%.c=%.nm)
+NMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))
 
 # dependent file
-DEPS := $(SRCS:%.c=%.d)
+DEPS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.d))
 DEPM := Makefile
 
 # compiler tool chain
@@ -39,6 +41,7 @@ NM := nm
 # other tools
 RM := rm
 GREP := grep
+MKDIR := mkdir
 
 # compiler option
 FLAGS := -g
@@ -64,6 +67,7 @@ preprocess: $(PRES)
 
 # from program file
 $(DASM): $(PROG)
+	@[ -d $(DUMPDIR) ] || $(MKDIR) $(DUMPDIR)
 	$(DUMP) -d $^ > $@
 
 $(HEAD): $(PROG)
@@ -87,13 +91,16 @@ $(NMS): $(OBJS)
 
 # from sourcecode file
 $(OBJS): $(SRCS) $(DEPM)
-	$(CC) $(FLAGS) $(DEFINES) $(INCLUDES) -c -MMD -MP $<
+	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
+	$(CC) $(FLAGS) $(DEFINES) $(INCLUDES) -c -MMD -MP $< -o $@
 
 $(ASMS): $(SRCS) $(DEPM)
-	$(CC) -S $(FLAGS) $(DEFINES) $(INCLUDES) -c -MMD -MP $<
+	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
+	$(CC) -S $(FLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(PRES): $(SRCS) $(DEPM)
-	$(CC) -E $(FLAGS) $(DEFINES) $(INCLUDES) -c -MMD -MP $< > $@
+	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
+	$(CC) -E $(FLAGS) $(DEFINES) $(INCLUDES) -c $< > $@
 
 # clean
 clean:

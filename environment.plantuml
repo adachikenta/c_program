@@ -1,0 +1,74 @@
+@startuml enviroment
+folder ".vscode" <<workspace>> {
+  frame "launch.json" {
+    [run]
+    note right of [run]
+      [F5]
+    end note
+  }
+  frame "tasks.json" {
+    [build]
+    note right of [build]
+      [Ctrl]+[Shift]+[B]
+    end note
+  }
+}
+frame "make.exe" <<msys>> {
+  [make]
+}
+
+folder "workspace"{
+  frame "Makefile" {
+    [all:]
+    [dump:]
+    [clean:]
+    [version:]
+  }
+  frame "version.sh" {
+    [--version]
+  }
+}
+frame "gcc.exe" <<MinGW>> {
+  [compile]
+}
+frame "objdump.exe" <<MinGW>> {
+  [discompile]
+}
+frame "rm.exe" <<msys>> {
+  [delete]
+}
+frame "gdb.exe" <<MinGW>> {
+  [debug]
+}
+frame "program.exe" {
+  [binary]
+}
+frame "program.dasm" {
+  [assembler]
+}
+
+build -> [make]
+[make] --> Makefile
+
+
+[all:] --> [compile]
+[compile] --> program.exe #black
+
+[dump:] --> [discompile]
+[discompile] --> [binary]
+[discompile] --> [assembler] #black
+
+[clean:] --> [delete]
+[delete] ..> program.exe #black
+[delete] ..> program.dasm #black
+
+[run] --> [debug]
+[debug] --> program.exe
+
+[version:] --> [--version]
+
+[--version] --> gcc.exe
+[--version] --> objdump.exe
+[--version] --> rm.exe
+[--version] --> gdb.exe
+@enduml
