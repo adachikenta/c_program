@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     /* 引数の数分ループ */
     for(int i = 0; i < argc; i++)
     {
-        /* 標準出力(各引数文字列) */
+        /* 標準出力：各引数文字列 */
         printf("%s\n", argv[i]);
     }
     /* プログラム終了コード返却 */

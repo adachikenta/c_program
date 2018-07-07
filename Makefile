@@ -99,5 +99,6 @@ $(PRES): $(SRCS) $(DEPM)
 clean:
 	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(LDDF) $(DASM) $(NMF) $(DASMS) $(NMS)
 
+# version
 version:
 	@bash -c "version.sh make $(CC) $(DUMP) $(NM)"
