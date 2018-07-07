@@ -101,4 +101,4 @@ clean:
 
 # version
 version:
-	@bash -c "version.sh make $(CC) $(DUMP) $(NM)"
+	@bash -c "version.sh make $(CC) gdb $(DUMP) $(NM)"
