@@ -100,4 +100,4 @@ clean:
 	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(LDDF) $(DASM) $(NMF) $(DASMS) $(NMS)
 
 version:
-	@bash -c version.sh
+	@bash -c "version.sh make $(CC) $(DUMP) $(NM)"

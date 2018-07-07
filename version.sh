@@ -1,5 +1,5 @@
 #!/bin/bash
-TOOLS=("make" "gcc" "objdump" "nm")
+TOOLS=($@)
 for TOOL in ${TOOLS[@]};do
 	echo ""
     which $TOOL;
