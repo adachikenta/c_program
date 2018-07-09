@@ -1,12 +1,16 @@
 # dependent Makefile
 DEPM = Makefile
 
-# basic tools
+# posix tools
 SH    := bash
-MAKE  := make
 RM    := rm
 GREP  := grep
 MKDIR := mkdir
+
+# posix development tools
+MAKE  := make
+STRIP := strip
+NM    := nm
 
 # compiler tool chain
 CC   := gcc
@@ -16,7 +20,6 @@ AS   := as
 AR   := ar
 LD   := ld
 DUMP := objdump
-NM   := nm
 GDB  := gdb
 
 # compiler option
@@ -60,8 +63,6 @@ DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm)) # disassembler file
 NMS   := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))   # nm file
 
 # targets
-version:
-	@$(SH) version.sh $(MAKE) $(CC) $(CXX) $(GDB) $(AS) $(AR) $(LD) $(DUMP) $(NM) $(RM)
 all: $(PROG)
 dump: $(DASM) $(HEAD) $(NMF) $(LDD) $(DASMS) $(NMS)
 assemble: $(ASMS)
@@ -69,6 +70,8 @@ preprocess: $(PPS)
 -include $(DEP)
 clean:
 	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PPS) $(ASMS) $(HEAD) $(LDD) $(DASM) $(NMF) $(DASMS) $(NMS)
+version:
+	@$(SH) version.sh $(MAKE) $(CC) $(CXX) $(GDB) $(AS) $(AR) $(LD) $(DUMP) $(STRIP) $(NM) $(RM)
 
 # from program file
 $(DASM): $(PROG)
@@ -80,6 +83,7 @@ $(LDD): $(PROG)
 	$(DUMP) -p $^ | $(GREP) 'DLL Name:' > $@
 $(NMF): $(PROG)
 	$(NM) -o -g $^ > $@
+
 # from object file
 $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) -Wl,-Map=$(MAP) $(LIBS) -o $@ $^
@@ -87,6 +91,7 @@ $(DASMS): $(OBJS)
 	$(DUMP) -d $^ > $@
 $(NMS): $(OBJS)
 	$(NM) -o -g $^ > $@
+
 # from sourcecode file
 $(OBJS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
