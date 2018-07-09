@@ -1,118 +1,99 @@
+# dependent Makefile
+DEPM = Makefile
+
 # basic tools
-SH := bash
-MAKE := make
-RM := rm
-GREP := grep
+SH    := bash
+MAKE  := make
+RM    := rm
+GREP  := grep
 MKDIR := mkdir
 
 # compiler tool chain
-CC := gcc
+CC   := gcc
+CPP  := $(CC) -E
+CXX  := g++
+AS   := as
+AR   := ar
+LD   := ld
 DUMP := objdump
-NM := nm
-GDB := gdb
+NM   := nm
+GDB  := gdb
 
 # compiler option
-FLAGS := -g
-FLAGS += -O0
-FLAGS += -Wall
-FLAGS += -MMD
-FLAGS += -MP
-
-# include path
-INCLUDES := -I./
+CFLAGS  = -g
+CFLAGS += -O0
+CFLAGS += -Wall
+CFLAGS += -MMD
+CFLAGS += -MP
 
 # preprocessor definition
-DEFINES := -DDUMMY
+DEFINES  = -DDUMMY
 
-# link library
-LIBRARYS := -LC:/MinGW/lib
+# include path
+INCLUDES  = -I./
+
+# link library path
+LIBS  = -LC:/MinGW/lib
 
 # sourcecode file
-SRCS := main.c
+SRCS  = main.c
 
 # output directory
-OBJDIR := obj
-DUMPDIR := reverse
+OBJDIR  = obj
+DUMPDIR = reverse
 
 # project name
-PROJ := program
+PROJ = program
 
-# program file
-PROG := $(PROJ).exe
+# output file
+PROG  := $(PROJ).exe
+MAP   := $(PROJ).map
+HEAD  := $(DUMPDIR)/$(PROJ).header
+DASM  := $(DUMPDIR)/$(PROJ).dasm
+LDD   := $(DUMPDIR)/$(PROJ).ldd
+NMF   := $(DUMPDIR)/$(PROJ).nm
+OBJS  := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))    # object file
+DEPS  := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.d))    # dependent file
+PPS   := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.pp))   # preprocessed file
+ASMS  := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.s))    # assembler file
+DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm)) # disassembler file
+NMS   := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))   # nm file
 
-# map file
-MAP := $(PROJ).map
-HEAD := $(DUMPDIR)/$(PROJ).header
-DASM := $(DUMPDIR)/$(PROJ).dasm
-LDDF := $(DUMPDIR)/$(PROJ).ldd
-NMF := $(DUMPDIR)/$(PROJ).nm
-
-# object file
-OBJS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
-
-# preprocessed file
-PRES := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.prepro))
-
-# assembler file
-ASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.s))
-DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm))
-
-# nm file
-NMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))
-
-# dependent file
-DEPS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.d))
-DEPM := Makefile
-
-# rules
+# targets
+version:
+	@$(SH) version.sh $(MAKE) $(CC) $(CXX) $(GDB) $(AS) $(AR) $(LD) $(DUMP) $(NM) $(RM)
 all: $(PROG)
-dump: $(DASM) $(HEAD) $(NMF) $(LDDF) $(DASMS) $(NMS)
+dump: $(DASM) $(HEAD) $(NMF) $(LDD) $(DASMS) $(NMS)
 assemble: $(ASMS)
-preprocess: $(PRES)
-
--include $(DEPS)
+preprocess: $(PPS)
+-include $(DEP)
+clean:
+	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PPS) $(ASMS) $(HEAD) $(LDD) $(DASM) $(NMF) $(DASMS) $(NMS)
 
 # from program file
 $(DASM): $(PROG)
 	@[ -d $(DUMPDIR) ] || $(MKDIR) $(DUMPDIR)
 	$(DUMP) -d $^ > $@
-
 $(HEAD): $(PROG)
 	$(DUMP) -x $^ > $@
-
-$(LDDF): $(PROG)
+$(LDD): $(PROG)
 	$(DUMP) -p $^ | $(GREP) 'DLL Name:' > $@
-
 $(NMF): $(PROG)
 	$(NM) -o -g $^ > $@
-
 # from object file
 $(PROG): $(OBJS)
-	$(CC) $(FLAGS) -Wl,-Map=$(MAP) $(LIBRARYS) -o $@ $^
-
+	$(CC) $(CFLAGS) -Wl,-Map=$(MAP) $(LIBS) -o $@ $^
 $(DASMS): $(OBJS)
 	$(DUMP) -d $^ > $@
-
 $(NMS): $(OBJS)
 	$(NM) -o -g $^ > $@
-
 # from sourcecode file
 $(OBJS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
-	$(CC) $(FLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
-
+	$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 $(ASMS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
-	$(CC) -S $(FLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
-
-$(PRES): $(SRCS) $(DEPM)
+	$(CC) -S $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
+$(PPS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
-	$(CC) -E $(DEFINES) $(INCLUDES) -c $< > $@
-
-# clean
-clean:
-	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PRES) $(ASMS) $(HEAD) $(LDDF) $(DASM) $(NMF) $(DASMS) $(NMS)
-
-# version
-version:
-	@$(SH) version.sh $(MAKE) $(CC) $(GDB) $(DUMP) $(NM) $(RM)
+	$(CPP) $(DEFINES) $(INCLUDES) -c $< > $@
