@@ -115,4 +115,4 @@ clean:
 
 # version
 version:
-	@$(SH) -c "version.sh $(MAKE) $(CC) $(GDB) $(DUMP) $(NM) $(RM)"
+	@$(SH) version.sh $(MAKE) $(CC) $(GDB) $(DUMP) $(NM) $(RM)
