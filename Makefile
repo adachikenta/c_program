@@ -1,3 +1,39 @@
+# basic tools
+SH := bash
+MAKE := make
+RM := rm
+GREP := grep
+MKDIR := mkdir
+
+# compiler tool chain
+CC := gcc
+DUMP := objdump
+NM := nm
+GDB := gdb
+
+# compiler option
+FLAGS := -g
+FLAGS += -O0
+FLAGS += -Wall
+FLAGS += -MMD
+FLAGS += -MP
+
+# include path
+INCLUDES := -I./
+
+# preprocessor definition
+DEFINES := -DDUMMY
+
+# link library
+LIBRARYS := -LC:/MinGW/lib
+
+# sourcecode file
+SRCS := main.c
+
+# output directory
+OBJDIR := obj
+DUMPDIR := reverse
+
 # project name
 PROJ := program
 
@@ -6,17 +42,12 @@ PROG := $(PROJ).exe
 
 # map file
 MAP := $(PROJ).map
-DUMPDIR := reverse
 HEAD := $(DUMPDIR)/$(PROJ).header
 DASM := $(DUMPDIR)/$(PROJ).dasm
 LDDF := $(DUMPDIR)/$(PROJ).ldd
 NMF := $(DUMPDIR)/$(PROJ).nm
 
-# sourcecode file
-SRCS := main.c
-
 # object file
-OBJDIR := obj
 OBJS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))
 
 # preprocessed file
@@ -32,30 +63,6 @@ NMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))
 # dependent file
 DEPS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.d))
 DEPM := Makefile
-
-# compiler tool chain
-CC := gcc
-DUMP := objdump
-NM := nm
-
-# other tools
-RM := rm
-GREP := grep
-MKDIR := mkdir
-
-# compiler option
-FLAGS := -g
-FLAGS += -O0
-FLAGS += -Wall
-
-# include path
-INCLUDES := -I./
-
-# compile option
-DEFINES := -DDUMMY
-
-# link library
-LIBRARYS := -LC:/MinGW/lib
 
 # rules
 all: $(PROG)
@@ -92,7 +99,7 @@ $(NMS): $(OBJS)
 # from sourcecode file
 $(OBJS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
-	$(CC) $(FLAGS) $(DEFINES) $(INCLUDES) -c -MMD -MP $< -o $@
+	$(CC) $(FLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(ASMS): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
@@ -100,7 +107,7 @@ $(ASMS): $(SRCS) $(DEPM)
 
 $(PRES): $(SRCS) $(DEPM)
 	@[ -d $(OBJDIR) ] || $(MKDIR) $(OBJDIR)
-	$(CC) -E $(FLAGS) $(DEFINES) $(INCLUDES) -c $< > $@
+	$(CC) -E $(DEFINES) $(INCLUDES) -c $< > $@
 
 # clean
 clean:
@@ -108,4 +115,4 @@ clean:
 
 # version
 version:
-	@bash -c "version.sh make $(CC) gdb $(DUMP) $(NM) $(RM)"
+	@$(SH) -c "version.sh $(MAKE) $(CC) $(GDB) $(DUMP) $(NM) $(RM)"
