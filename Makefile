@@ -49,7 +49,7 @@ DUMPDIR = reverse
 PROJ = program
 
 # output file
-PROG  := $(PROJ).exe
+PROG  := $(PROJ).exe                                 # program file
 MAP   := $(PROJ).map
 HEAD  := $(DUMPDIR)/$(PROJ).header
 DASM  := $(DUMPDIR)/$(PROJ).dasm
@@ -63,7 +63,7 @@ DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm)) # disassembler file
 NMS   := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))   # nm file
 
 # targets
-.PHONY: clean version
+.PHONY: clean version test
 all: $(PROG)
 dump: $(DASM) $(HEAD) $(NMF) $(LDD) $(DASMS) $(NMS)
 assemble: $(ASMS)
@@ -73,6 +73,8 @@ clean:
 	$(RM) -f $(PROG) $(OBJS) $(DEPS) $(MAP) $(PPS) $(ASMS) $(HEAD) $(LDD) $(DASM) $(NMF) $(DASMS) $(NMS)
 version:
 	@$(SH) version.sh $(MAKE) $(CC) $(CXX) $(GDB) $(AS) $(AR) $(LD) $(DUMP) $(STRIP) $(NM) $(RM)
+test:
+	@$(PROG) test; echo returned : $$?
 
 # from program file
 $(DASM): $(PROG)
