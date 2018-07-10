@@ -7,7 +7,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/program_name.exe",
+            "program": "${workspaceFolder}/program.exe",
             "args": [
                 "arg1",
                 "arg2",
