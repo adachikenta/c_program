@@ -1,10 +1,10 @@
 @startuml enviroment
 skinparam node {
-	backgroundColor<<workspace root>> mistyrose
+	backgroundColor<<workspace root>> lightyellow
 }
 skinparam frame {
-  backgroundColor<<msys>> lightgreen
-  backgroundColor<<MinGW>> lightcyan
+  backgroundColor<<msys>> lavenderblush
+  backgroundColor<<MinGW>> azure
 }
 skinparam component {
   borderColor black
@@ -23,14 +23,17 @@ node "Project" <<workspace root>> {
       note right of [build]
         =Build
         =[Ctrl]+[Shift]+[B]
+        =Select target
       end note
     }
   }
   frame "Makefile" {
-    [all:]
-    [dump:]
-    [clean:]
-    [version:]
+    node target {
+      [all:]
+      [dump:]
+      [clean:]
+      [version:]
+    }
   }
   frame "version.sh" {
     [--version]

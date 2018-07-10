@@ -63,6 +63,7 @@ DASMS := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm)) # disassembler file
 NMS   := $(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))   # nm file
 
 # targets
+.PHONY: clean version
 all: $(PROG)
 dump: $(DASM) $(HEAD) $(NMF) $(LDD) $(DASMS) $(NMS)
 assemble: $(ASMS)
