@@ -4,7 +4,7 @@ STRIP :=strip
 NM    :=nm
 # compiler tool chain
 CC    :=gcc
-CPP   :=$(CC) -E
+CPP   :=$(CC) -E# : Preprocess only; do not compile, assemble or link.
 CXX   :=g++
 AS    :=as
 AR    :=ar
@@ -14,11 +14,11 @@ GDB   :=gdb
 TOOLS :=$(MAKE) $(STRIP) $(NM) $(CC) $(CXX) $(AS) $(AR) $(LD) $(DUMP) $(GDB)
 
 # compiler option
-CFLAGS  =-g
-CFLAGS += -O0
-CFLAGS += -Wall
-CFLAGS += -MMD
-CFLAGS += -MP
+CFLAGS  =-g#     : Debugging Option
+CFLAGS += -O0#   : Optimization Option
+CFLAGS += -Wall# : Warning Option
+CFLAGS += -MMD#  : Control Dependency Option
+CFLAGS += -MP#   : Control Dependency Option
 # preprocessor definition
 DEFINES  =-DDUMMY
 # include path
