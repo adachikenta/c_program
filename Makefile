@@ -59,7 +59,7 @@ all: $(PROG)
 dump: $(DASMS) $(NMS) $(DASM) $(NMF) $(HEAD) $(LDD)
 assemble: $(ASMS)
 preprocess: $(PPS)
-#-include $(DEP)
+-include $(DEPS)
 clean:
 	@echo cleaning output file...; echo $(OUTPUTS) | sed -e 's/ /\n/g' | sort | sed -e 's/^/\t/'; rm -f $(OUTPUTS)
 version:
