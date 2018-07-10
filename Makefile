@@ -93,7 +93,7 @@ $(NMS): $(OBJS)
 	$(NM) -o -g $^ > $@
 
 # depend source code file
-$(OBJS): $(SRCS) $(DEPS) $(MAKEFILE_LIST)
+$(OBJS): $(SRCS) $(MAKEFILE_LIST)
 	$(common-rule)
 	$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) $(OUTPUT_OPTION) -c $< 
 $(ASMS): $(SRCS) $(MAKEFILE_LIST)
