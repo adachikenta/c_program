@@ -25,6 +25,36 @@
             }
         },
         {
+            "label": "build-ignore-errors",
+            "command": "make",
+            "args": [
+                "all",
+                "-i"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-keep-going",
+            "command": "make",
+            "args": [
+                "all",
+                "-k"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "clean",
             "command": "make",
             "args": [
