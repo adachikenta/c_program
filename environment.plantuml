@@ -1,15 +1,12 @@
 @startuml enviroment
-skinparam node {
-	backgroundColor<<workspace root>> lightyellow
-}
 skinparam frame {
-  backgroundColor<<msys>> lavenderblush
-  backgroundColor<<MinGW>> azure
+	backgroundColor<<msys>> honeydew
+	backgroundColor<<MinGW>> lightcyan
 }
-skinparam component {
-  borderColor black
+skinparam node {
+	backgroundColor ivory
 }
-node "Project" <<workspace root>> {
+node "Project" <<workspace root folder>> {
   folder ".vscode" {
     frame "launch.json" {
       [run]
@@ -23,12 +20,12 @@ node "Project" <<workspace root>> {
       note right of [build]
         =Build
         =[Ctrl]+[Shift]+[B]
-        =Select target
+        => select target
       end note
     }
   }
   frame "Makefile" {
-    node target {
+    node targets {
       [all:]
       [dump:]
       [clean:]
@@ -48,38 +45,39 @@ frame "gcc.exe" <<MinGW>> {
 frame "objdump.exe" <<MinGW>> {
   [discompile]
 }
-frame "gdb.exe" <<MinGW>> {
-  [debug]
-}
 frame "rm.exe" <<msys>> {
   [delete]
 }
-node "Output" <<workspace root>> {
+frame "gdb.exe" <<MinGW>> {
+  [debug]
+}
+
+node "output" <<workspace root folder>> {
   frame "program.exe" {
-    [binary] <<->> [debug info] #black
+    [binary] <<->> [debug info] #gray
   }
-  folder "reverse" {
+  folder "reverse"{
     frame "program.dasm" {
       [disassembler]
     }
   }
 }
 
-[build] .. Makefile #mistyrose
+[build] .. Makefile #ivory
 [build] ->> [make] #black
   [make] -->> Makefile #black
     [all:] -->> [compile] #black
       [compile] --> program.exe #blue
     [dump:] -->> [discompile] #black
-      [discompile] -->> [binary] #black
+      [discompile] ->> [binary] #black
       [discompile] --> reverse #blue
     [clean:] -->> [delete] #black
-      [delete] --> Output #red
+      [delete] --> output
     [version:] -->> [--version] #black
       [--version] -->> gcc.exe #gray
       [--version] -->> objdump.exe #gray
       [--version] -->> rm.exe #gray
       [--version] ->> gdb.exe #gray
 [run] -->> [debug] #black
-  [debug] -->> [debug info] #black
+  [debug] ->> [debug info] #black
 @enduml
