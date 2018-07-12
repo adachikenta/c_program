@@ -60,41 +60,37 @@ https://code.visualstudio.com/<br>
     + 「AutoComplate shell」：shell script 開発支援
 
 ## 開発方法
-### Install 状況確認方法
+WORKSPACEFOLDER：「.vscode」の１つ上のフォルダ選択
+### 共通
 1. Visual Studio Code 起動
-1. フォルダを開く「.vscode」の１つ上のフォルダ選択
+1. [Ctrl]+[o→k] → WORKSPACEFOLDERを選択
+
+### Install 状況確認方法
 1. [Ctrl]+[Shift]+[B] → "version"<br>
 → version.log に保存した各種ツールのバージョン情報を確認
 
 ### Build 方法
-1. Visual Studio Code 起動
-1. フォルダを開く「.vscode」の１つ上のフォルダ選択
 1. [Ctrl]+[Shift]+[B] → "build"<br>
 → exeができることを確認
 
 ### 実行方法
-1. Visual Studio Code 起動
-1. フォルダを開く「.vscode」の１つ上のフォルダ選択
 1. [Ctrl]+[Shift]+[C] → コマンドプロンプト起動<br>
 1. プログラム実行
     ```command
-    C:\workspaceFolder>program.exe
+    C:\WORKSPACEFOLDER>program.exe
     [command line info]: program.exe
     ```
 1. プログラム実行結果確認
     ```command
-    C:\workspaceFolder>echo %ERRORLEVEL%
+    C:\WORKSPACEFOLDER>echo %ERRORLEVEL%
     0
     ```
 
 ### 修正方法
-1. main.cを修正<br>
-※コメント補完は関数の前に「/**」と入力して[Enter]
++ コメント補完：は関数の前に「/**」と入力して[Enter]
 
 ### Debug 方法
-1. Visual Studio Code 起動
-1. フォルダを開く「.vscode」の１つ上のフォルダ選択
-1. main.c内にブレイクポイント設定 → [F5]<br>
+1. [F9] コードにブレイクポイント設定 
+2. [F5] デバッグ開始
 → ブレイクポイントで停止することを確認
-1. [F10]<br>
-→ ステップ実行できることを確認
+1. [F10] ステップ実行できることを確認
