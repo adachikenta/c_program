@@ -68,9 +68,9 @@ ifneq ($(findstring $(MAKECMDGOALS),$(origin clean)$(origin version)$(origin tes
 -include $(DEPS)
 endif
 clean:
-	@echo cleaning output file...; echo $(OUTPUTS) | tr ' ' '\n' | sort | sed -e 's/^/\t/'; rm -f $(OUTPUTS)
+	@echo cleaning output file...; ls $(OUTPUTS) 2>/dev/null | sort | sed 's/^/\t/' | tee clean.log; rm -f $(OUTPUTS)
 version:
-	@echo checking version...; bash version.sh $(TOOLS) | tee version.log
+	@echo checking tool version...; bash version.sh $(TOOLS) | tee version.log
 test:
 	@$(PROG) test a b c; echo returned : $$?
 
