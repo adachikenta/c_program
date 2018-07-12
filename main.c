@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
     for(int i = 0; i < argc; i++)
     {
         /* 標準出力：各引数文字列 */
-        printf("%s\n", argv[i]);
+        printf("[command line info]: %s\n", argv[i]);
     }
     /* プログラム終了コード返却 */
     return 0;

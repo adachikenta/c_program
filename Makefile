@@ -1,5 +1,4 @@
 # posix development tools
-MAKE  :=make
 STRIP :=strip
 NM    :=nm
 # compiler tool chain
@@ -29,11 +28,14 @@ INCLUDES  =-I./
 SRCS     := $(wildcard *.c)
 
 # output directory
-OBJDIR  =obj
-DUMPDIR =reverse
+OBJDIR     =obj
+DUMPDIR    =reverse
+RELEASEDIR =release
 # output file
 PROG    :=program.exe#                                 : program file
 MAP     :=$(PROG:%.exe=%.map)#                         : map file
+RELEASE :=$(RELEASEDIR)/$(PROG)#                       : program file for release
+DASMR   :=$(DUMPDIR)/$(PROG:%.exe=%.dasmr)#            : disassembler file(release)
 DASM    :=$(DUMPDIR)/$(PROG:%.exe=%.dasm)#             : disassembler file
 NMF     :=$(DUMPDIR)/$(PROG:%.exe=%.nm)#               : nm file
 HEAD    :=$(DUMPDIR)/$(PROG:%.exe=%.header)#           : header file
@@ -44,11 +46,11 @@ ASMS    :=$(addprefix $(OBJDIR)/, $(SRCS:%.c=%.s))#    : assembler file
 OBJS    :=$(addprefix $(OBJDIR)/, $(SRCS:%.c=%.o))#    : object file
 DASMS   :=$(addprefix $(OBJDIR)/, $(SRCS:%.c=%.dasm))# : disassembler file
 NMS     :=$(addprefix $(OBJDIR)/, $(SRCS:%.c=%.nm))#   : nm file
-OUTPUTS :=$(PROG) $(OBJS) $(DEPS) $(MAP) $(PPS) $(ASMS) $(HEAD) $(LDD) $(DASM) $(NMF) $(DASMS) $(NMS)
+OUTPUTS :=$(PROG) $(MAP) $(RELEASE) $(DASMR) $(DASM) $(NMF) $(HEAD) $(LDD) $(DEPS) $(PPS) $(ASMS) $(OBJS) $(DASMS) $(NMS)
 
 # common rule
 define common-rule
-    @echo ------------------------------------------------------------------
+    @echo ------------------------------------------------------------------------------------------------------------------------
 	@echo creating $@ "<-------" depends on $?
 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
 	@rm -f $@
@@ -59,6 +61,8 @@ endef
 preprocess: $(PPS)
 assemble: $(ASMS)
 all: $(PROG)
+release: $(RELEASE)
+release-dump: $(DASMR)
 dump: $(DASMS) $(NMS) $(DASM) $(NMF) $(HEAD) $(LDD)
 ifneq ($(findstring $(MAKECMDGOALS),$(origin clean)$(origin version)$(origin test)),)
 -include $(DEPS)
@@ -96,6 +100,9 @@ $(NMS): $(OBJDIR)/%.nm: $(OBJDIR)/%.o
 	$(NM) -o -g $^ > $@
 
 # depend program file
+$(RELEASE): $(PROG)
+	$(common-rule)
+	$(STRIP) $^ $(OUTPUT_OPTION)
 $(DASM): $(PROG)
 	$(common-rule)
 	$(DUMP) -d $^ > $@
@@ -108,3 +115,8 @@ $(HEAD): $(PROG)
 $(LDD): $(PROG)
 	$(common-rule)
 	$(DUMP) -p $^ | grep 'DLL Name:' > $@
+
+# depend release program file
+$(DASMR): $(RELEASE)
+	$(common-rule)
+	$(DUMP) -d $^ > $@
