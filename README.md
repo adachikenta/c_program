@@ -71,7 +71,7 @@ WORKSPACEFOLDER：「.vscode」の１つ上のフォルダ選択
 
 ### Build 方法
 1. [Ctrl]+[Shift]+[B] → "build"<br>
-→ exeができることを確認
+→ program.exeができることを確認
 
 ### 実行方法
 1. [Ctrl]+[Shift]+[C] → コマンドプロンプト起動<br>
@@ -91,6 +91,6 @@ WORKSPACEFOLDER：「.vscode」の１つ上のフォルダ選択
 
 ### Debug 方法
 1. [F9] コードにブレイクポイント設定 
-2. [F5] デバッグ開始
+1. [F5] デバッグ開始
 → ブレイクポイントで停止することを確認
 1. [F10] ステップ実行できることを確認
