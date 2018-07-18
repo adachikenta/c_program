@@ -19,6 +19,7 @@ CFLAGS += -O0#   : Optimization Option
 CFLAGS += -Wall# : Warning Option
 # link library path
 LIBS  =-LC:/MinGW/lib
+# LIBS  =-LC:/msys64/usr/lib
 
 # preprocessor definition
 DEFINES   =-DDUMMY
